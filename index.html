@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMAYO | DJ & Music Producer</title>
+    <meta name="description"
+        content="Portafolio profesional de LMAYO. DJ, Productor Musical de Música Electrónica y Techno.">
+    <meta property="og:url" content="https://lmayo.pages.dev/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="LMAYO | DJ & Music Producer">
+    <meta property="og:description"
+        content="Portafolio profesional de LMAYO. DJ, Productor Musical de Música Electrónica y Techno.">
+    <link rel="canonical" href="https://lmayo.pages.dev/">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Syncopate:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="index.css">
+<link rel="icon" href="/123.png" type="image/png"></head>
+
+<body>
+
+    <!-- Neural Network Background Effect -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar glass-panel">
+        <div class="nav-content">
+            <a href="#" class="logo">
+                <img src="assets/logo.png" alt="LMAYO Logo" class="nav-logo-img">
+                L<span class="neon-text">MAYO</span>
+            </a>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#videos" class="nav-link">Videos</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#projects" class="nav-link">Releases</a>
+                <a href="#store" class="nav-link">Store</a>
+                <a href="#contact" class="nav-link btn-primary">Book Me</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="home">
+        <!-- Video Background -->
+        <video autoplay muted loop playsinline class="hero-video-bg">
+            <source src="assets/hero-bg.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-line">SOUND</span>
+                <span class="title-line gradient-text">ARCHITECT</span>
+                <span class="title-line">& CROWD CONTROLLER</span>
+            </h1>
+            <p class="hero-subtitle">Elevating the electronic scene with futuristic beats and immersive live
+                experiences.</p>
+            <div class="hero-actions">
+                <a href="https://www.youtube.com/@lmayo8293" target="_blank"
+                    class="btn btn-primary glow-btn">Youtube</a>
+                <a href="https://soundcloud.com/l4may02" target="_blank"
+                    class="btn btn-secondary glass-btn">SOUNDCLOUD</a>
+            </div>
+        </div>
+
+        <!-- Abstract floating elements -->
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+    </header>
+
+    <!-- Biography Section -->
+    <section class="section bio-section" id="bio">
+        <div class="container">
+            <div class="bio-wrapper glass-panel">
+                <div class="bio-image-container">
+                    <img src="assets/bio-image.jpg" alt="L MAYO - DJ and Producer" class="bio-img">
+                    <div class="bio-image-overlay"></div>
+                </div>
+                <div class="bio-content">
+                    <h2 class="section-title">L <span class="neon-text">MAYO</span></h2>
+                    <h4 class="bio-subtitle">PRODUCTOR MUSICAL Y DJ COLOMBIANO</h4>
+
+                    <p class="bio-text">
+                        David Mayorga Moreno, músico y productor ( Melodic Techno, Progressive,Techno y hard dance) con
+                        formación en DNA Music.
+                    </p>
+
+                    <p class="bio-text">
+                        Este proyecto da inicio con fin hacer llegar la música
+                        electrónica colombiana a un mayor posicionamiento. Además de interactuar con las diferentes
+                        culturas musicales.
+                    </p>
+
+                    <p class="bio-text">
+                        Dado a la gran capacidad de improvisación de melodías y ritmos para un show completo donde el
+                        público tiene una experiencia completa de la interpretación sonora de L MAYO.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EPK Video Section -->
+    <section class="section epk-section" id="epk">
+        <div class="container">
+            <div class="epk-wrapper glass-panel">
+                <video controls controlsList="nodownload" class="epk-video">
+                    <source src="assets/epk-video.mp4" type="video/mp4">
+                    Tu navegador no soporta el reproductor de video.
+                </video>
+                <a href="#contact" class="epk-cta-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                    </svg>
+                    CONFIRMA TU FECHA
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Player Section (L MAYO) -->
+    <section class="section player-section" id="musica">
+        <div class="container">
+            <h2 class="section-title">Tracks & <span class="neon-text">Sets</span></h2>
+            <p class="section-subtitle">Escucha lo último de L MAYO directamente aquí.</p>
+            
+            <div class="beatport-player-container glass-panel">
+                <div class="player-cover">
+                    <img src="assets/cover.png" alt="L MAYO Cover" id="current-cover">
+                    <div class="playing-bars" id="playing-bars">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+                
+                <div class="player-controls-area">
+                    <div class="track-info">
+                        <h3 id="current-track-title">Selecciona un Track</h3>
+                        <p class="track-artist">L MAYO</p>
+                    </div>
+                    
+                    <div class="progress-container" id="progress-container">
+                        <div class="progress-bar" id="progress-bar">
+                            <div class="progress-thumb"></div>
+                        </div>
+                        <div class="time-display">
+                            <span id="current-time">0:00</span>
+                            <span id="duration-time">0:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="controls-buttons">
+                        <button class="ctrl-btn" id="prev-btn"><i class="fas fa-step-backward"></i></button>
+                        <button class="ctrl-btn play-btn-main" id="play-pause-btn"><i class="fas fa-play"></i></button>
+                        <button class="ctrl-btn" id="next-btn"><i class="fas fa-step-forward"></i></button>
+                    </div>
+                </div>
+                
+                <div class="playlist-area">
+                    <h4 class="playlist-title">Playlist Exclusivo</h4>
+                    <ul class="playlist-list" id="playlist-ul">
+                        <!-- Generado desde JS -->
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="https://www.youtube.com/@lmayo8293" target="_blank" class="btn btn-primary glow-btn"><i class="fab fa-youtube"></i> Más en mi canal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Videos Section -->
+    <section class="section lives-section" id="lives">
+        <div class="container">
+            <h2 class="section-title">Live <span class="gradient-text">Sets</span></h2>
+            <p class="section-subtitle">Revive las mejores sesiones en vivo con la máxima energía.</p>
+            
+            <div class="lives-grid">
+                <!-- Video 1 -->
+                <div class="live-card hover-glow">
+                    <div class="video-responsive-container">
+                        <a href="https://www.youtube.com/watch?v=12y-pwPJTtM" target="_blank" class="video-thumbnail-link">
+                            <img src="https://img.youtube.com/vi/12y-pwPJTtM/maxresdefault.jpg" onerror="this.onerror=function(){this.onerror=null; this.src='https://img.youtube.com/vi/12y-pwPJTtM/sddefault.jpg';};" alt="Live Set" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;">
+                        </a>
+                    </div>
+                    <div class="live-info">
+                        <span class="live-badge">EN VIVO</span>
+                        <h3>Special Hard Dance Set</h3>
+                    </div>
+                </div>
+                <!-- Video 2 -->
+                <div class="live-card hover-glow">
+                    <div class="video-responsive-container">
+                        <a href="https://www.youtube.com/watch?v=Rx0eUVyse0E" target="_blank" class="video-thumbnail-link">
+                            <img src="https://img.youtube.com/vi/Rx0eUVyse0E/maxresdefault.jpg" onerror="this.onerror=function(){this.onerror=null; this.src='https://img.youtube.com/vi/Rx0eUVyse0E/sddefault.jpg';};" alt="Live Set" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;">
+                        </a>
+                    </div>
+                    <div class="live-info">
+                        <span class="live-badge">EN VIVO</span>
+                        <h3>Techno Underground Session</h3>
+                    </div>
+                </div>
+                <!-- Video 3 -->
+                <div class="live-card hover-glow">
+                    <div class="video-responsive-container">
+                        <a href="https://www.youtube.com/watch?v=_pB4zFjqdKw" target="_blank" class="video-thumbnail-link">
+                            <img src="https://img.youtube.com/vi/_pB4zFjqdKw/maxresdefault.jpg" onerror="this.onerror=function(){this.onerror=null; this.src='https://img.youtube.com/vi/_pB4zFjqdKw/sddefault.jpg';};" alt="Live Set" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;">
+                        </a>
+                    </div>
+                    <div class="live-info">
+                        <span class="live-badge">EN VIVO</span>
+                        <h3>Dark Techno Live Mix</h3>
+                    </div>
+                </div>
+                <!-- Video 4 -->
+                <div class="live-card hover-glow">
+                    <div class="video-responsive-container">
+                        <a href="https://www.youtube.com/watch?v=OTrIVTpToy8" target="_blank" class="video-thumbnail-link">
+                            <img src="https://img.youtube.com/vi/OTrIVTpToy8/maxresdefault.jpg" onerror="this.onerror=function(){this.onerror=null; this.src='https://img.youtube.com/vi/OTrIVTpToy8/sddefault.jpg';};" alt="Live Set" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;">
+                        </a>
+                    </div>
+                    <div class="live-info">
+                        <span class="live-badge">EN VIVO</span>
+                        <h3>Industrial Techno Special</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comments & Reactions Section -->
+    <section class="section comments-section" id="comunidad">
+        <div class="container">
+            <div class="comments-layout glass-panel">
+                <div class="comments-form-area">
+                    <h2 class="section-title">Deja tu <span class="neon-text">Mensaje</span></h2>
+                    <p class="section-subtitle" style="text-align: left; margin-bottom: 2rem;">Únete a la comunidad de L MAYO.</p>
+                    <form id="comment-form">
+                        <div class="form-group">
+                            <input type="text" id="comment-name" class="form-control" placeholder="Tu Nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="comment-text" class="form-control" placeholder="Qué te parecieron los tracks?" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary glow-btn" style="width: 100%;">Publicar Comentario</button>
+                    </form>
+                </div>
+                
+                <div class="comments-wall-area">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--text-color); font-size: 1.3rem;">Comentarios Recientes</h4>
+                    <div class="comments-list" id="comments-list">
+                        <!-- Comentarios simulados -->
+                        <div class="comment-item">
+                            <div class="comment-avatar"><i class="fas fa-user-astronaut"></i></div>
+                            <div class="comment-content">
+                                <h5>TechnoFan99 <span class="comment-time">Hace 2 horas</span></h5>
+                                <p>Brooo, ese segundo live está brutallll 🔥🚀</p>
+                            </div>
+                        </div>
+                        <div class="comment-item">
+                            <div class="comment-avatar"><i class="fas fa-user-ninja"></i></div>
+                            <div class="comment-content">
+                                <h5>DJ_Vortex <span class="comment-time">Hace 5 horas</span></h5>
+                                <p>Muy duro el estilo! Esperando nuevos tracks.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">Hello, <span class="neon-text">I'm LMAYO!</span></h2>
+
+            <div class="features-grid">
+                <!-- Music Producer -->
+                <div class="feature-card glass-panel hover-glow">
+                    <div class="card-icon">🎛️</div>
+                    <h3 class="card-title">Music Producer</h3>
+                    <p class="card-text">Specialized in electronic and futuristic beats using Ableton Live, FL Studio,
+                        analog synthesizers, and cutting-edge VSTs for professional sound design and deep basslines.</p>
+                </div>
+
+                <!-- Crowd Controller -->
+                <div class="feature-card glass-panel hover-glow">
+                    <div class="card-icon">🎧</div>
+                    <h3 class="card-title">Crowd Controller</h3>
+                    <p class="card-text">Reading the room, building tension, and delivering explosive drops. Excellent
+                        track selection and live mixing skills using CDJs and advanced Traktor setups.</p>
+                </div>
+
+                <!-- Sound Designer -->
+                <div class="feature-card glass-panel hover-glow">
+                    <div class="card-icon">🌊</div>
+                    <h3 class="card-title">Sound Designer</h3>
+                    <p class="card-text">Creating unique presets, sample packs, and cinematic soundscapes. Constant
+                        innovation in audio processing to deliver high-quality, impactful results.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section services-section" id="skills">
+        <div class="container">
+            <h2 class="section-title">Services I <span class="neon-text">Offer</span></h2>
+            <p class="section-subtitle">Comprehensive audio solutions tailored to your needs.</p>
+
+            <div class="services-list">
+                <div class="service-item glass-panel">
+                    <h4 class="service-title">Track Production</h4>
+                    <p>From idea to complete scalable arrangement. Focus on Tech House, Techno, and Cyberpunk/Synthwave
+                        genres.</p>
+                </div>
+                <div class="service-item glass-panel">
+                    <h4 class="service-title">Mix & Mastering</h4>
+                    <p>Achieve industry-standard loudness, clarity, and punch for streaming platforms and club sound
+                        systems.</p>
+                </div>
+                <div class="service-item glass-panel">
+                    <h4 class="service-title">Live DJ Sets</h4>
+                    <p>High-energy performances tailored for festivals, intimate clubs, and exclusive private events.
+                    </p>
+                </div>
+                <div class="service-item glass-panel">
+                    <h4 class="service-title">Sound Design & Sample Packs</h4>
+                    <p>Custom audio branding, sound effects, and premium royalty-free presets for your catalog.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section videos-section" id="videos">
+        <div class="container">
+            <h2 class="section-title">Últimos <span class="gradient-text">Videos</span></h2>
+            <p class="section-subtitle">Revive mis más recientes sets y producciones en vivo.</p>
+
+            <div class="videos-grid">
+                <div class="video-container" style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <div class="video-responsive-container">
+                        <a href="https://www.youtube.com/watch?v=12y-pwPJTtM" target="_blank" class="video-thumbnail-link">
+                            <img src="https://img.youtube.com/vi/12y-pwPJTtM/maxresdefault.jpg" onerror="this.onerror=function(){this.onerror=null; this.src='https://img.youtube.com/vi/12y-pwPJTtM/sddefault.jpg';};" alt="L MAYO - Acid expressions" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="video-container" style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <div class="video-responsive-container">
+                        <a href="https://www.youtube.com/watch?v=zBFMsiQjpTM" target="_blank" class="video-thumbnail-link">
+                            <img src="https://img.youtube.com/vi/zBFMsiQjpTM/maxresdefault.jpg" onerror="this.onerror=function(){this.onerror=null; this.src='https://img.youtube.com/vi/zBFMsiQjpTM/sddefault.jpg';};" alt="L MAYO EPK" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="video-container" style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <div class="video-responsive-container">
+                        <a href="https://www.youtube.com/watch?v=BEkAx2ss_mQ" target="_blank" class="video-thumbnail-link">
+                            <img src="https://img.youtube.com/vi/BEkAx2ss_mQ/maxresdefault.jpg" onerror="this.onerror=function(){this.onerror=null; this.src='https://img.youtube.com/vi/BEkAx2ss_mQ/sddefault.jpg';};" alt="Live Act 0001" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery Section -->
+    <section class="section gallery-section" id="gallery">
+        <div class="container">
+            <h2 class="section-title">En <span class="neon-text">Vivo</span></h2>
+            <p class="section-subtitle">Momentos capturados durante mis últimas presentaciones.</p>
+
+            <div class="gallery-grid">
+                <div class="gallery-item glass-panel hover-glow">
+                    <img src="assets/gallery/HPT00767.jpg" alt="L MAYO Live Performance" loading="lazy">
+                </div>
+                <div class="gallery-item glass-panel hover-glow">
+                    <img src="assets/gallery/2.jpg" alt="L MAYO Live Performance" loading="lazy">
+                </div>
+                <div class="gallery-item glass-panel hover-glow">
+                    <img src="assets/gallery/3.jpg" alt="L MAYO Live Performance" loading="lazy">
+                </div>
+                <div class="gallery-item glass-panel hover-glow">
+                    <img src="assets/gallery/4.jpg" alt="L MAYO Live Performance" loading="lazy">
+                </div>
+                <div class="gallery-item glass-panel hover-glow">
+                    <img src="assets/gallery/5.jpg" alt="L MAYO Live Performance" loading="lazy">
+                </div>
+                <div class="gallery-item glass-panel hover-glow">
+                    <img src="assets/gallery/HPT00746-Editar.jpg" alt="L MAYO Live Performance" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section projects-section" id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured <span class="gradient-text">Releases</span></h2>
+            <p class="section-subtitle">Listen to my latest tracks and collaborations.</p>
+
+            <div class="projects-grid">
+                <div class="project-card glass-panel">
+                    <div class="project-art bg-track-1">
+                        <div class="play-overlay">▶</div>
+                    </div>
+                    <div class="project-info">
+                        <h4 class="project-title">Cybernetic Overdrive</h4>
+                        <span class="project-tag">EP / Synthwave</span>
+                        <div class="audio-waveform-mock"></div>
+                    </div>
+                </div>
+                <div class="project-card glass-panel">
+                    <div class="project-art bg-track-2">
+                        <div class="play-overlay">▶</div>
+                    </div>
+                    <div class="project-info">
+                        <h4 class="project-title">Neon Shadows</h4>
+                        <span class="project-tag">Single / Techno</span>
+                        <div class="audio-waveform-mock"></div>
+                    </div>
+                </div>
+                <div class="project-card glass-panel">
+                    <div class="project-art bg-track-3">
+                        <div class="play-overlay">▶</div>
+                    </div>
+                    <div class="project-info">
+                        <h4 class="project-title">Bass Protocol</h4>
+                        <span class="project-tag">Remix / Tech House</span>
+                        <div class="audio-waveform-mock"></div>
+                    </div>
+                </div>
+                <div class="project-card glass-panel">
+                    <div class="project-art bg-track-4">
+                        <div class="play-overlay">▶</div>
+                    </div>
+                    <div class="project-info">
+                        <h4 class="project-title">Void Walker</h4>
+                        <span class="project-tag">Album / Ambient</span>
+                        <div class="audio-waveform-mock"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-2">
+                <a href="#" class="nav-link btn-ghost">View All Releases -></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Store Highlights -->
+    <section class="section store-section" id="store">
+        <div class="container">
+            <h2 class="section-title">Store <span class="neon-text">Highlights</span></h2>
+            <p class="section-subtitle">Premium tools, packs, and resources to take your production to the next level.
+            </p>
+
+            <div class="store-grid">
+                <!-- Product 1 -->
+                <a href="#" class="store-item glass-panel hover-glow">
+                    <div class="store-price">$45.00</div>
+                    <h3 class="store-item-title">Cyberpunk Serum Presets</h3>
+                    <span class="store-tag">PRESETS</span>
+                </a>
+
+                <!-- Product 2 -->
+                <a href="#" class="store-item glass-panel hover-glow">
+                    <div class="store-price">$30.00</div>
+                    <h3 class="store-item-title">Industrial Techno Sample Pack</h3>
+                    <span class="store-tag">SAMPLES</span>
+                </a>
+
+                <!-- Product 3 -->
+                <a href="#" class="store-item glass-panel hover-glow">
+                    <div class="store-price">$120.00</div>
+                    <h3 class="store-item-title">Ableton Live Masterclass</h3>
+                    <span class="store-tag">COURSE</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <footer class="footer-section" id="contact">
+        <div class="container">
+            <h2 class="section-title text-center">Interested in <span class="gradient-text">working together?</span>
+            </h2>
+            <p class="text-center">Let's transform your vision into an extraordinary sonic experience.</p>
+
+            <!-- BOOKING FORM -->
+            <div class="booking-form-container glass-panel">
+                <div class="booking-form-grid">
+                    <div class="booking-form-info">
+                        <div class="booking-icon">🎧</div>
+                        <h3>Reserva tu <span class="neon-text">Fecha</span></h3>
+                        <p>Cuéntame tu visión. Transformamos cualquier evento en una experiencia sonora extraordinaria.</p>
+                        <ul class="booking-perks">
+                            <li>⚡ Respuesta en menos de 24h</li>
+                            <li>🎛️ Sets personalizados por género</li>
+                            <li>🌍 Presentaciones internacionales</li>
+                            <li>📻 Producción y Mezcla en vivo</li>
+                        </ul>
+                    </div>
+                    <form id="booking-form" class="booking-form" onsubmit="sendBookingToWhatsApp(event)">
+                        <div class="form-group">
+                            <label class="form-label">Tu Nombre *</label>
+                            <input type="text" id="book-name" class="form-control" placeholder="¿Cómo te llamas?" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tipo de Evento *</label>
+                            <select id="book-event" class="form-control" required>
+                                <option value="">Selecciona el tipo de evento...</option>
+                                <option value="Festival">🎪 Festival</option>
+                                <option value="Club / Discoteca">🏙️ Club / Discoteca</option>
+                                <option value="Evento Privado">🎉 Evento Privado</option>
+                                <option value="Corporativo">💼 Corporativo</option>
+                                <option value="Livestream / Online">📡 Livestream / Online</option>
+                                <option value="Otro">🎶 Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Fecha del Evento *</label>
+                                <input type="date" id="book-date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Ciudad / País *</label>
+                                <input type="text" id="book-city" class="form-control" placeholder="Ej: Bogotá, Colombia" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mensaje adicional</label>
+                            <textarea id="book-message" class="form-control" placeholder="Cuéntame más sobre tu evento, horario, número de personas, géneros preferidos..." rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary glow-btn" style="width:100%; padding: 1rem; font-size: 1.1rem;">
+                            📲 Enviar Solicitud por WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom glass-panel">
+                <div class="footer-logo">L<span class="neon-text">MAYO</span></div>
+                <div class="social-links">
+                    <a href="https://open.spotify.com/user/72av1s35wtmszkpnyv594q411" target="_blank">Spotify</a>
+                    <a href="https://soundcloud.com/l4may02" target="_blank">SoundCloud</a>
+                    <a href="https://www.instagram.com/l_mayoofficial/" target="_blank">Instagram</a>
+                    <a href="https://www.youtube.com/@lmayo8293" target="_blank">YouTube</a>
+                </div>
+                <p class="copyright">&copy; 2026 Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+
+</html>
