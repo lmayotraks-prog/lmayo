@@ -3,16 +3,43 @@
    Harmonic Neural Net  +  3D Star Field
    +  Floating Orbs  +  Twinkling Particles
    +  Cursor Ripple  +  Cyan/Purple Palette
+   + FULLY RESPONSIVE (mobile-first)
 ========================================= */
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    initStars(); // re-seed stars on resize
+// ─── Responsive Config (recomputed on resize) ─
+let RES = {}; // all adaptive values live here
+
+function getResponsiveConfig() {
+    const W = window.innerWidth;
+    const isMobile = W < 768;
+    const isTablet = W >= 768 && W < 1200;
+    return {
+        isMobile,
+        isTablet,
+        dpr: Math.min(window.devicePixelRatio || 1, isMobile ? 2 : 3),
+        starCount:  isMobile ? 100 : isTablet ? 200 : 320,
+        orbCount:   isMobile ? 4   : isTablet ? 5   : 7,
+        sparkCount: isMobile ? 30  : isTablet ? 55  : 80,
+        nodeCount:  isMobile ? 28  : isTablet ? 45  : 60,
+        ambientCount: isMobile ? 40 : isTablet ? 90 : 150,
+        sphereR:    isMobile ? 130 : isTablet ? 240 : 350,
+        connectDist: isMobile ? 200 : isTablet ? 270 : 320,
+        rippleProb: isMobile ? 0 : 0.25, // no ripples on touch (handled separately)
+    };
 }
-window.addEventListener('resize', resizeCanvas);
+
+function resizeCanvas() {
+    RES = getResponsiveConfig();
+    // Use devicePixelRatio for crisp rendering on Retina / high-DPI screens
+    canvas.width  = window.innerWidth  * RES.dpr;
+    canvas.height = window.innerHeight * RES.dpr;
+    canvas.style.width  = window.innerWidth  + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.scale(RES.dpr, RES.dpr);
+    initStars(); // re-seed stars after resize
+}
 
 // ─── Shared State ────────────────────────
 const originalColors = ['#00f3ff', '#9d00ff'];
@@ -22,20 +49,35 @@ let targetAngleX = 0, targetAngleY = 0;
 let time = 0;
 let mouseX = 0, mouseY = 0;
 
-// Cursor ripples (inspired by reference site's cursor glow)
+// Cursor ripples
 const ripples = [];
 
+function spawnRipple(x, y) {
+    ripples.push({ x, y, r: 0, alpha: 0.4,
+        color: originalColors[Math.floor(Math.random() * 2)] });
+}
+
+// Mouse events (desktop)
 window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
     targetAngleY = (e.clientX - window.innerWidth / 2) * 0.0012;
     targetAngleX = (e.clientY - window.innerHeight / 2) * 0.0012;
-    // spawn a faint cursor ripple
-    if (Math.random() < 0.25) {
-        ripples.push({ x: e.clientX, y: e.clientY, r: 0, alpha: 0.4,
-            color: originalColors[Math.floor(Math.random() * 2)] });
-    }
+    if (Math.random() < 0.25) spawnRipple(e.clientX, e.clientY);
 });
+
+// Touch events (mobile) — gyroscopic-style parallax + touch ripples
+window.addEventListener('touchmove', (e) => {
+    const t = e.touches[0];
+    targetAngleY = (t.clientX - window.innerWidth  / 2) * 0.0015;
+    targetAngleX = (t.clientY - window.innerHeight / 2) * 0.0015;
+    if (Math.random() < 0.4) spawnRipple(t.clientX, t.clientY);
+}, { passive: true });
+
+window.addEventListener('touchstart', (e) => {
+    const t = e.touches[0];
+    spawnRipple(t.clientX, t.clientY);
+}, { passive: true });
 
 // ─── Helpers ─────────────────────────────
 function hexToRgba(hex, alpha) {
@@ -64,15 +106,16 @@ function rotate3D(x, y, z, ax, ay) {
 
 // ─── LAYER 1: Deep 3D Star Field ─────────
 // (Inspired by reference site's Three.js star field)
-const STAR_COUNT = 320;
 let stars = [];
 
 function initStars() {
+    if (!RES.starCount) return; // guard before first resize
     stars = [];
-    for (let i = 0; i < STAR_COUNT; i++) {
+    const W = window.innerWidth, H = window.innerHeight;
+    for (let i = 0; i < RES.starCount; i++) {
         stars.push({
-            x: (Math.random() - 0.5) * canvas.width * 3,
-            y: (Math.random() - 0.5) * canvas.height * 3,
+            x: (Math.random() - 0.5) * W * 3,
+            y: (Math.random() - 0.5) * H * 3,
             z: Math.random() * 2000 + 100,
             size: Math.random() * 1.2 + 0.2,
             twinklePhase: Math.random() * Math.PI * 2,
@@ -83,15 +126,16 @@ function initStars() {
 }
 
 function drawStars(ax, ay) {
+    const W = window.innerWidth, H = window.innerHeight;
     stars.forEach(s => {
         // Gentle parallax drift based on camera angle
         let px3d = s.x + Math.sin(ay) * s.z * 0.15;
         let py3d = s.y + Math.sin(ax) * s.z * 0.15;
         let scale = fov / (fov + s.z);
-        let sx = px3d * scale + canvas.width / 2;
-        let sy = py3d * scale + canvas.height / 2;
+        let sx = px3d * scale + W / 2;
+        let sy = py3d * scale + H / 2;
 
-        if (sx < -10 || sx > canvas.width + 10 || sy < -10 || sy > canvas.height + 10) return;
+        if (sx < -10 || sx > W + 10 || sy < -10 || sy > H + 10) return;
 
         // Twinkling effect — the key visual from the reference site
         s.twinklePhase += s.twinkleSpeed;
@@ -131,17 +175,19 @@ function drawStars(ax, ay) {
 
 // ─── LAYER 2: Floating Glowing Orbs ──────
 // (Inspired by the soft drifting glow orbs in the reference site)
-const ORB_COUNT = 7;
 const orbs = [];
 
 function initOrbs() {
-    for (let i = 0; i < ORB_COUNT; i++) {
+    orbs.length = 0;
+    const W = window.innerWidth, H = window.innerHeight;
+    const baseR = RES.isMobile ? 50 : 120;
+    for (let i = 0; i < RES.orbCount; i++) {
         orbs.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
+            x: Math.random() * W,
+            y: Math.random() * H,
             vx: (Math.random() - 0.5) * 0.18,
             vy: (Math.random() - 0.5) * 0.18,
-            baseR: 60 + Math.random() * 120,
+            baseR: baseR * (0.5 + Math.random()),
             pulsePhase: Math.random() * Math.PI * 2,
             pulseSpeed: 0.008 + Math.random() * 0.008,
             color: originalColors[i % 2],
@@ -151,13 +197,14 @@ function initOrbs() {
 }
 
 function drawOrbs() {
+    const W = window.innerWidth, H = window.innerHeight;
     orbs.forEach(orb => {
         orb.x += orb.vx;
         orb.y += orb.vy;
-        if (orb.x < -orb.baseR) orb.x = canvas.width + orb.baseR;
-        if (orb.x > canvas.width + orb.baseR) orb.x = -orb.baseR;
-        if (orb.y < -orb.baseR) orb.y = canvas.height + orb.baseR;
-        if (orb.y > canvas.height + orb.baseR) orb.y = -orb.baseR;
+        if (orb.x < -orb.baseR) orb.x = W + orb.baseR;
+        if (orb.x > W + orb.baseR) orb.x = -orb.baseR;
+        if (orb.y < -orb.baseR) orb.y = H + orb.baseR;
+        if (orb.y > H + orb.baseR) orb.y = -orb.baseR;
 
         orb.pulsePhase += orb.pulseSpeed;
         let r = orb.baseR * (1 + 0.15 * Math.sin(orb.pulsePhase));
@@ -176,14 +223,15 @@ function drawOrbs() {
 
 // ─── LAYER 3: Twinkling Data Particles ───
 // (The tiny rapid blinkers seen on the reference site)
-const SPARKLE_COUNT = 80;
 const sparkles = [];
 
 function initSparkles() {
-    for (let i = 0; i < SPARKLE_COUNT; i++) {
+    sparkles.length = 0;
+    const W = window.innerWidth, H = window.innerHeight;
+    for (let i = 0; i < RES.sparkCount; i++) {
         sparkles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
+            x: Math.random() * W,
+            y: Math.random() * H,
             vx: (Math.random() - 0.5) * 0.3,
             vy: (Math.random() - 0.5) * 0.3,
             phase: Math.random() * Math.PI * 2,
@@ -195,14 +243,15 @@ function initSparkles() {
 }
 
 function drawSparkles() {
+    const W = window.innerWidth, H = window.innerHeight;
     sparkles.forEach(sp => {
         sp.x += sp.vx;
         sp.y += sp.vy;
         // wrap
-        if (sp.x < 0) sp.x = canvas.width;
-        if (sp.x > canvas.width) sp.x = 0;
-        if (sp.y < 0) sp.y = canvas.height;
-        if (sp.y > canvas.height) sp.y = 0;
+        if (sp.x < 0) sp.x = W;
+        if (sp.x > W) sp.x = 0;
+        if (sp.y < 0) sp.y = H;
+        if (sp.y > H) sp.y = 0;
 
         sp.phase += sp.speed;
         let brightness = Math.pow(Math.abs(Math.sin(sp.phase)), 3); // sharp pulse
@@ -235,8 +284,7 @@ function drawRipples() {
 }
 
 // ─── LAYER 5: Harmonic 3D Neural Network ─
-// (Our original harmonic neural web — preserved exactly)
-const nodesCount = 60;
+// (Our original harmonic neural web — now adaptive)
 const nodes = [];
 const ambientParticles = [];
 
@@ -244,7 +292,7 @@ class HarmonicNode {
     constructor(i, totalCount) {
         let phi = Math.acos(1 - 2 * (i + 0.5) / totalCount);
         let theta = Math.PI * (1 + Math.sqrt(5)) * i;
-        let R = window.innerWidth < 768 ? 160 : 350;
+        let R = RES.sphereR || 350; // adaptive sphere radius
         this.cx = Math.sin(phi) * Math.cos(theta) * R;
         this.cy = Math.sin(phi) * Math.sin(theta) * R;
         this.cz = Math.cos(phi) * R;
@@ -290,19 +338,23 @@ class AmbientParticle {
 function initNetwork() {
     nodes.length = 0;
     ambientParticles.length = 0;
-    for (let i = 0; i < nodesCount; i++) nodes.push(new HarmonicNode(i, nodesCount));
-    for (let i = 0; i < 150; i++) ambientParticles.push(new AmbientParticle());
+    const nc = RES.nodeCount || 60;
+    const ac = RES.ambientCount || 150;
+    for (let i = 0; i < nc; i++) nodes.push(new HarmonicNode(i, nc));
+    for (let i = 0; i < ac; i++) ambientParticles.push(new AmbientParticle());
 }
 
 function drawNeuralNetwork(ax, ay) {
+    const nc = nodes.length;
+    const W = window.innerWidth, H = window.innerHeight;
     // Ambient 3D particles
     ambientParticles.forEach(p => {
         p.update();
         let rot = rotate3D(p.x, p.y, p.z, ax, ay);
         let scale = fov / (fov + rot.z);
         if (scale > 0 && scale < 3) {
-            let px = rot.x * scale + canvas.width / 2;
-            let py = rot.y * scale + canvas.height / 2;
+            let px = rot.x * scale + W / 2;
+            let py = rot.y * scale + H / 2;
             ctx.fillStyle = hexToRgba(p.color, Math.min(1, scale * 0.5) * 0.25);
             ctx.beginPath();
             ctx.arc(px, py, scale * 1.0, 0, Math.PI * 2);
@@ -311,22 +363,22 @@ function drawNeuralNetwork(ax, ay) {
     });
 
     let projected = [];
-    for (let i = 0; i < nodesCount; i++) {
+    for (let i = 0; i < nc; i++) {
         let n = nodes[i];
         n.update(time);
         let rot = rotate3D(n.x, n.y, n.z, ax, ay);
         let scale = fov / (fov + rot.z);
         projected.push({
             id: i, node: n, scale,
-            x: rot.x * scale + canvas.width / 2,
-            y: rot.y * scale + canvas.height / 2,
+            x: rot.x * scale + W / 2,
+            y: rot.y * scale + H / 2,
             z: rot.z, color: n.color, size: n.baseSize * scale
         });
     }
     projected.sort((a, b) => b.z - a.z);
 
-    ctx.lineWidth = 0.6;
-    const maxD = 320;
+    ctx.lineWidth = RES.isMobile ? 0.4 : 0.6;
+    const maxD = RES.connectDist || 320;
     for (let i = 0; i < projected.length; i++) {
         let p1 = projected[i];
         for (let j = i + 1; j < projected.length; j++) {
@@ -368,7 +420,8 @@ function drawNeuralNetwork(ax, ay) {
 
 // ─── Master Render Loop ───────────────────
 function render() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Clear using logical (CSS) pixel dimensions so DPR scaling stays correct
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     time += 0.004;
 
     angleX += (targetAngleX - angleX) * 0.02;
@@ -387,10 +440,22 @@ function render() {
 }
 
 // ─── Initialise Everything ────────────────
-resizeCanvas();
-initOrbs();
-initSparkles();
-initNetwork();
+// resizeCanvas() sets RES + DPR, then seeds all particle systems
+function initAll() {
+    resizeCanvas();   // sets RES, DPR-scales canvas
+    initOrbs();       // seeds with RES.orbCount
+    initSparkles();   // seeds with RES.sparkCount
+    initNetwork();    // seeds with RES.nodeCount
+}
+
+// Re-initialise on orientation/viewport change (debounced)
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(initAll, 200);
+});
+
+initAll();
 render();
 
 // Scroll Animation with Intersection Observer
