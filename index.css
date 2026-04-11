@@ -478,9 +478,7 @@ h4 {
     flex: 1;
     padding: 3rem;
     z-index: 2;
-    background: rgb(6 6 10);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    background: transparent;
     --border-glass: rgba(163, 172, 200, 0.15);
 }
 
@@ -948,11 +946,11 @@ select,
     }
 }
 /* ===== BEATPORT STYLE MUSIC PLAYER ===== */
-.player-section { position: relative; z-index: 5; background: var(--bg-dark); }
+.player-section { position: relative; z-index: 5; background: transparent; }
 .beatport-player-container {
     display: flex;
     flex-wrap: wrap;
-    background: rgba(15, 15, 18, 0.95);
+    background: transparent;
     border: 1px solid var(--neon-cyan);
     box-shadow: 0 10px 40px rgba(0, 210, 255, 0.15);
     border-radius: 20px;
@@ -1113,7 +1111,9 @@ select,
 .lives-section { position: relative; z-index: 5; }
 .lives-grid { display: grid; grid-template-columns: 1fr; max-width: 1000px; margin: 0 auto; gap: 4rem; }
 .live-card {
-    background: var(--glass-bg);
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--border-glass);
     border-radius: 16px;
     overflow: hidden;
