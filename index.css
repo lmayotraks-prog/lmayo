@@ -944,6 +944,28 @@ select,
     .videos-grid {
         grid-template-columns: 1fr;
     }
+
+    .beatport-player-container {
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.5rem;
+        text-align: center;
+    }
+    
+    .player-cover {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+    }
+    
+    .player-controls-area {
+        min-width: 100%;
+        align-items: center;
+    }
+    
+    .controls-buttons {
+        justify-content: center;
+    }
 }
 /* ===== BEATPORT STYLE MUSIC PLAYER ===== */
 .player-section { position: relative; z-index: 5; background: transparent; }
@@ -961,21 +983,36 @@ select,
 .player-cover {
     width: 250px;
     height: 250px;
-    border-radius: 15px;
+    border-radius: 50%;
     overflow: hidden;
     position: relative;
     box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid rgba(255, 255, 255, 0.1);
 }
-.player-cover img { width: 100%; height: 100%; object-fit: cover; }
+.player-cover img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    z-index: 1; 
+    transition: transform 0.3s ease; 
+}
+.player-cover:hover img { transform: scale(1.05); }
 .playing-bars {
     position: absolute;
-    bottom: 15px;
-    right: 15px;
+    bottom: 25px;
+    right: 25px;
     display: none;
     gap: 3px;
     height: 20px;
     align-items: flex-end;
+    z-index: 3;
 }
 .playing-bars.active { display: flex; }
 .playing-bars span {
@@ -1050,20 +1087,28 @@ select,
 }
 .ctrl-btn:hover { color: var(--neon-cyan); transform: scale(1.1); }
 .play-btn-main {
-    width: 60px;
-    height: 60px;
-    background: var(--neon-cyan);
-    color: #000;
+    position: relative;
+    z-index: 2;
+    width: 80px;
+    height: 80px;
+    background: rgba(197, 97, 246, 0.85); /* Purple neon cyan with opacity */
+    backdrop-filter: blur(8px);
+    border: 2px solid var(--neon-cyan);
+    color: #fff;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.8rem;
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
+    font-size: 2.2rem;
+    box-shadow: 0 0 20px rgba(197, 97, 246, 0.6);
+    cursor: pointer;
+    transition: 0.3s;
 }
 .play-btn-main:hover {
-    background: #fff;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+    background: var(--neon-cyan);
+    color: #000;
+    box-shadow: 0 0 30px rgba(197, 97, 246, 1);
+    transform: scale(1.1);
 }
 
 .playlist-area {
