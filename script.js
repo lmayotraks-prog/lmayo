@@ -624,6 +624,14 @@ function initBeatportPlayer() {
         playlistUl.appendChild(li);
     });
 
+    document.querySelectorAll('.project-card[data-track-idx]').forEach(card => {
+        card.addEventListener('click', () => {
+            const idx = parseInt(card.getAttribute('data-track-idx'));
+            loadTrack(idx, true);
+            document.getElementById('musica').scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
     const updateUIForTrack = (index) => {
         trackTitle.innerText = playlist[index].name;
         const items = playlistUl.querySelectorAll(".playlist-item");
