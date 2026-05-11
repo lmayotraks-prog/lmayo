@@ -719,12 +719,19 @@ function initBeatportPlayer() {
         if(currentIdx >= playlist.length) currentIdx = 0;
 
         updateUIForTrack(currentIdx);
+        newAudio.volume = 1;
         newAudio.play();
         
-        setTimeout(() => {
-            oldAudio.pause();
-            oldAudio.currentTime = 0;
-        }, 500);
+        let fadeOut = setInterval(() => {
+            if (oldAudio.volume >= 0.15) {
+                oldAudio.volume -= 0.15;
+            } else {
+                clearInterval(fadeOut);
+                oldAudio.pause();
+                oldAudio.currentTime = 0;
+                oldAudio.volume = 1;
+            }
+        }, 30);
 
         preloadNext(currentIdx);
         newAudio.transitioning = false;
@@ -739,7 +746,7 @@ function initBeatportPlayer() {
         if(isNaN(progress)) progress = 0;
         progressThumb.style.width = progress + "%";
 
-        if (activeAudio.duration && activeAudio.currentTime >= activeAudio.duration - 0.2) {
+        if (activeAudio.duration && activeAudio.currentTime >= activeAudio.duration - 0.6) {
              if (!activeAudio.transitioning) {
                  activeAudio.transitioning = true;
                  playNextGapless();
