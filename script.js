@@ -562,16 +562,16 @@ if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
 // =============================================
 function initBeatportPlayer() {
     const playlist = [
-        { name: "1. YEA! YEA!", file: "assets/music/YEA! YEA!.wav" },
-        { name: "2. BELLS OF THE SKY", file: "assets/music/BELLS OF THE SKY.wav" },
-        { name: "3. TREMOLO VOICE", file: "assets/music/TREMOLO VOICE.wav" },
-        { name: "4. DON´T PLAY WITH FIRE", file: "assets/music/DON´T PLAY WITH FIRE.wav" },
-        { name: "5. KIK OUT TRAVIS SCOTT", file: "assets/music/KIK OUT TRAVIS SCOTT FT L MAYO.wav" },
-        { name: "6. AMGQMEC", file: "assets/music/AMGQMEC.wav" },
-        { name: "7. COME ON ! L MAYO FT BABEEE", file: "assets/music/COME ON ! L MAYO FT BABEEE.wav" },
-        { name: "8. FEID - NOS DESCONOXIMOS REMIX", file: "assets/music/FEID - NOS DESCONOXIMOS REMIX (L MAYO).wav" },
-        { name: "9. Candy Factori", file: "assets/music/candy factori.wav" },
-        { name: "10. Candy Factori B min", file: "assets/music/candy factori b min.wav" }
+        { name: "1. YEA! YEA!", file: "assets/music/YEA! YEA!.mp3" },
+        { name: "2. BELLS OF THE SKY", file: "assets/music/BELLS OF THE SKY.mp3" },
+        { name: "3. TREMOLO VOICE", file: "assets/music/TREMOLO VOICE.mp3" },
+        { name: "4. DON´T PLAY WITH FIRE", file: "assets/music/DON´T PLAY WITH FIRE.mp3" },
+        { name: "5. KIK OUT TRAVIS SCOTT", file: "assets/music/KIK OUT TRAVIS SCOTT FT L MAYO.mp3" },
+        { name: "6. AMGQMEC", file: "assets/music/AMGQMEC.mp3" },
+        { name: "7. COME ON ! L MAYO FT BABEEE", file: "assets/music/COME ON ! L MAYO FT BABEEE.mp3" },
+        { name: "8. FEID - NOS DESCONOXIMOS REMIX", file: "assets/music/FEID - NOS DESCONOXIMOS REMIX (L MAYO).mp3" },
+        { name: "9. Candy Factori", file: "assets/music/candy factori.mp3" },
+        { name: "10. Candy Factori B min", file: "assets/music/candy factori b min.mp3" }
     ];
 
     const audio = new Audio();
