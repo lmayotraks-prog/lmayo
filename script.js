@@ -574,10 +574,14 @@ function initBeatportPlayer() {
         { name: "10. Candy Factori B min", file: "assets/music/candy factori b min.mp3" }
     ];
 
-    const audio = new Audio();
-    // Allow background playing for premium look
+    let primaryAudio = new Audio();
+    let secondaryAudio = new Audio();
+    let isPrimaryActive = true;
     let currentIdx = 0;
     
+    const getActiveAudio = () => isPrimaryActive ? primaryAudio : secondaryAudio;
+    const getIdleAudio = () => isPrimaryActive ? secondaryAudio : primaryAudio;
+
     const playBtn = document.getElementById("play-pause-btn");
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
@@ -603,8 +607,7 @@ function initBeatportPlayer() {
             </div>
         `;
         li.querySelector(".p-name").addEventListener("click", () => {
-            loadTrack(i);
-            playTrack();
+            loadTrack(i, true);
         });
         
         // Reaction logic
@@ -621,12 +624,8 @@ function initBeatportPlayer() {
         playlistUl.appendChild(li);
     });
 
-    const loadTrack = (index) => {
-        currentIdx = index;
-        audio.src = playlist[currentIdx].file;
-        trackTitle.innerText = playlist[currentIdx].name;
-        
-        // update UI classes
+    const updateUIForTrack = (index) => {
+        trackTitle.innerText = playlist[index].name;
         const items = playlistUl.querySelectorAll(".playlist-item");
         items.forEach((item, i) => {
             if(i === index) item.classList.add("playing");
@@ -634,8 +633,35 @@ function initBeatportPlayer() {
         });
     };
 
+    const preloadNext = (currentIndex) => {
+        let nIdx = currentIndex + 1;
+        if(nIdx >= playlist.length) nIdx = 0;
+        let idleAudio = getIdleAudio();
+        idleAudio.src = playlist[nIdx].file;
+        idleAudio.load();
+    };
+
+    const loadTrack = (index, playImmediately = false) => {
+        let activeAudio = getActiveAudio();
+        let idleAudio = getIdleAudio();
+        
+        activeAudio.pause();
+        idleAudio.pause();
+        activeAudio.currentTime = 0;
+        activeAudio.transitioning = false;
+
+        currentIdx = index;
+        activeAudio.src = playlist[currentIdx].file;
+        
+        updateUIForTrack(currentIdx);
+        preloadNext(currentIdx);
+        
+        if(playImmediately) playTrack();
+    };
+
     const playTrack = () => {
-        let promise = audio.play();
+        let activeAudio = getActiveAudio();
+        let promise = activeAudio.play();
         if (promise !== undefined) {
           promise.then(_ => {
             playBtn.innerHTML = "<i class=\"fas fa-pause\"></i>";
@@ -647,31 +673,31 @@ function initBeatportPlayer() {
     };
 
     const pauseTrack = () => {
-        audio.pause();
+        let activeAudio = getActiveAudio();
+        activeAudio.pause();
         playBtn.innerHTML = "<i class=\"fas fa-play\"></i>";
         playingBars.classList.remove("active");
     };
 
     playBtn.addEventListener("click", () => {
-        if(audio.src === "" || audio.src.endsWith("/")) {
+        let activeAudio = getActiveAudio();
+        if(activeAudio.src === "" || activeAudio.src.endsWith("/")) {
             loadTrack(0);
         }
-        if(audio.paused) playTrack();
+        if(activeAudio.paused) playTrack();
         else pauseTrack();
     });
 
     prevBtn.addEventListener("click", () => {
         let nIdx = currentIdx - 1;
         if(nIdx < 0) nIdx = playlist.length - 1;
-        loadTrack(nIdx);
-        playTrack();
+        loadTrack(nIdx, true);
     });
 
     nextBtn.addEventListener("click", () => {
         let nIdx = currentIdx + 1;
         if(nIdx >= playlist.length) nIdx = 0;
-        loadTrack(nIdx);
-        playTrack();
+        loadTrack(nIdx, true);
     });
 
     // Time Formatting
@@ -683,26 +709,70 @@ function initBeatportPlayer() {
         return min + ":" + sec;
     };
 
-    audio.addEventListener("timeupdate", () => {
-        curTimeSpan.innerText = formatTime(audio.currentTime);
-        let progress = (audio.currentTime / audio.duration) * 100;
+    const playNextGapless = () => {
+        let oldAudio = getActiveAudio();
+        
+        isPrimaryActive = !isPrimaryActive;
+        let newAudio = getActiveAudio();
+        
+        currentIdx = currentIdx + 1;
+        if(currentIdx >= playlist.length) currentIdx = 0;
+
+        updateUIForTrack(currentIdx);
+        newAudio.play();
+        
+        setTimeout(() => {
+            oldAudio.pause();
+            oldAudio.currentTime = 0;
+        }, 500);
+
+        preloadNext(currentIdx);
+        newAudio.transitioning = false;
+    };
+
+    const handleTimeUpdate = (e) => {
+        let activeAudio = getActiveAudio();
+        if (e.target !== activeAudio) return;
+
+        curTimeSpan.innerText = formatTime(activeAudio.currentTime);
+        let progress = (activeAudio.currentTime / activeAudio.duration) * 100;
         if(isNaN(progress)) progress = 0;
         progressThumb.style.width = progress + "%";
-    });
 
-    audio.addEventListener("loadeddata", () => {
-        durTimeSpan.innerText = formatTime(audio.duration);
-    });
+        if (activeAudio.duration && activeAudio.currentTime >= activeAudio.duration - 0.2) {
+             if (!activeAudio.transitioning) {
+                 activeAudio.transitioning = true;
+                 playNextGapless();
+             }
+        }
+    };
 
-    audio.addEventListener("ended", () => {
-        nextBtn.click();
+    primaryAudio.addEventListener("timeupdate", handleTimeUpdate);
+    secondaryAudio.addEventListener("timeupdate", handleTimeUpdate);
+
+    const handleLoadedData = (e) => {
+        let activeAudio = getActiveAudio();
+        if (e.target === activeAudio) {
+            durTimeSpan.innerText = formatTime(activeAudio.duration);
+        }
+    };
+
+    primaryAudio.addEventListener("loadeddata", handleLoadedData);
+    secondaryAudio.addEventListener("loadeddata", handleLoadedData);
+
+    primaryAudio.addEventListener("ended", () => {
+        if (!primaryAudio.transitioning && getActiveAudio() === primaryAudio) nextBtn.click();
+    });
+    secondaryAudio.addEventListener("ended", () => {
+        if (!secondaryAudio.transitioning && getActiveAudio() === secondaryAudio) nextBtn.click();
     });
 
     // Seek
     progressBar.addEventListener("click", (e) => {
+        let activeAudio = getActiveAudio();
         const rect = progressBar.getBoundingClientRect();
         const pos = (e.clientX - rect.left) / rect.width;
-        audio.currentTime = pos * audio.duration;
+        activeAudio.currentTime = pos * activeAudio.duration;
     });
 
     loadTrack(0);
